@@ -6,10 +6,14 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.exception.ResourceNotFoundException;
@@ -26,29 +31,39 @@ import com.cognixia.jump.service.CustomerService;
 
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class CustomerController {
 
 	@Autowired
 	CustomerService service;
 
+	@GetMapping("/logout")
+    public String logout() {
+        return ("<h1>You are logged out</h1>");
+    }
 	
+//	 @PostMapping("/login")
+//	    public boolean login(@RequestBody Customer user) {
+//	        return service.login(user.getUsername(), user.getPassword());
+//	    }
+//		
+//	 @PostMapping("/user")
+//	    public Principal user(HttpServletRequest request) {
+//	        String authToken = request.getHeader("Authorization")
+//	          .substring("Basic".length()).trim();
+//	        return () ->  new String(Base64.getDecoder()
+//	          .decode(authToken)).split(":")[0];
+//	    }
+//	
 	
-	 @PostMapping("/login")
-	    public boolean login(@RequestBody Customer user) {
-	        return service.login(user.getUsername(), user.getPassword());
-	    }
-		
-	 @PostMapping("/user")
-	    public Principal user(HttpServletRequest request) {
-	        String authToken = request.getHeader("Authorization")
-	          .substring("Basic".length()).trim();
-	        return () ->  new String(Base64.getDecoder()
-	          .decode(authToken)).split(":")[0];
-	    }
-	
-	
-	
+//	@RequestMapping(value="/logmeout", method = RequestMethod.POST)
+//	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//	if (auth != null){
+//	new SecurityContextLogoutHandler().logout(request, response, auth);
+//	}
+//	return "redirect:/login";
+//	}
 	
 	
 	@CrossOrigin(origins = "http://localhost:3000")
